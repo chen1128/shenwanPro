@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 22
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    //生成jar
+    task makeJar(type: Copy) {
+        delete 'build/libs/up72.jar' //删除已经存在的jar包，如果有的话
+        from('build/intermediates/intermediate-jars/release/')//从该目录下加载要打包的文件，注意文件夹名称有可能为default，也可能是release，自己看一下
+        into('build/libs/')//jar包的保存目录
+        include('classes.jar')//设置过滤，只打包classes文件
+        rename('classes.jar', 'up72.jar')//重命名，up72.jar 名字自己随便起
+    }
+    makeJar.dependsOn(build)
+    // 最后在Terminal运行 gradlew makeJar 敲回车
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+}

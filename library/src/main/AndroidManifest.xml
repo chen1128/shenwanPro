@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.up72.library">
+
+    <!-- SD卡读写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application>
+        <!-- 照片选择页面 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.android7.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <activity
+            android:name="com.up72.library.picture.PictureActivity"
+            android:theme="@style/PictureTheme" />
+        <!-- 图片裁剪 -->
+        <activity
+            android:name="com.up72.library.picture.crop.CropImageActivity"
+            android:screenOrientation="portrait" />
+        <!-- 查看大图 -->
+        <activity
+            android:name="com.up72.library.widget.BigImgActivity"
+            android:screenOrientation="portrait" />
+    </application>
+</manifest>
